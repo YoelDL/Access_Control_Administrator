@@ -1,0 +1,85 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ACA.GrpcProtos";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+package GrpcProtos;
+
+
+service SupervisorServiceWeb {
+  rpc CreateSupervisor (Supervisor) returns (SupervisorProto);
+  rpc GetSupervisor (SupervisorGetRequest) returns (SupervisorProto);
+  rpc GetAllSupervisors (google.protobuf.Empty) returns (Supervisors);
+  rpc UpdateSupervisor (SupervisorProto) returns (google.protobuf.Empty);
+  rpc DeleteSupervisor (SupervisorDeleteRequest) returns (google.protobuf.Empty);
+}
+
+
+message SupervisorProto 
+{
+  string id = 1;                  // ID del supervisor (GUID en string)
+  string supervisor_name = 2;
+  string ci = 3;
+  SchoolLevelSupervisor school_level = 4;
+  repeated OperatorofSupervisor operators = 5;
+  repeated ProcessofSupervisor processes_supervisors = 6;
+}
+
+
+message Supervisor
+{
+  string id = 1;                  // ID del supervisor (GUID en string)
+  string supervisor_name = 2;
+  string ci = 3;
+  SchoolLevelSupervisor school_level = 4;
+}
+
+
+message Supervisors
+{
+	repeated SupervisorProto supervisors = 1;
+}
+
+
+
+message ProcessofSupervisor
+{
+  string id = 1;                // ID del proceso creado (GUID en string)
+  string process_name = 2;
+  string product_name = 3;
+}
+
+message OperatorofSupervisor
+{
+  string id = 1; // Representación en string del Guid
+  string operator_name = 2;
+  string ci = 3;
+  SchoolLevelSupervisor school_level = 4;
+  string assigned_supervisor_id = 5; // Representación en string del Guid (Nullable)
+}
+
+enum SchoolLevelSupervisor
+{
+	Medium = 0;
+	High = 1;
+	MediumTecnic = 2;
+	University = 3;
+}
+
+message SupervisorGetRequest
+{
+	string id = 1;
+}
+
+message SupervisorDeleteRequest
+{
+	string id = 1;
+}
+
+
+
+
+
+
+

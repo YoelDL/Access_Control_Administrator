@@ -1,0 +1,80 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ACA.GrpcProtos";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+package GrpcProtos;
+
+service OperatorServiceWeb {
+  rpc CreateOperator (Operator) returns (OperatorProto);
+  rpc GetOperator (OperatorGetRequest) returns (OperatorProto);
+  rpc GetAllOperators (google.protobuf.Empty) returns (Operators);
+  rpc UpdateOperator (OperatorProto) returns (google.protobuf.Empty);
+  rpc DeleteOperator (OperatorDeleteRequest) returns (google.protobuf.Empty);
+}
+
+
+message OperatorProto 
+{
+  string id = 1; // Representación en string del Guid
+  string operator_name = 2;
+  string ci = 3;
+  SchoolLevelOperator school_level = 4;
+  repeated SupervisorofOperator supervisor_asigned = 5; // Relacion de uno a muchos 
+  repeated ProcessofOperator process_list = 6; // Relacion de muchos a muchos 
+}
+
+message Operator
+{
+  string id = 1; // Representación en string del Guid
+  string operator_name = 2;
+  string ci = 3;
+  SchoolLevelOperator school_level = 4; 
+}
+
+message Operators
+{
+	repeated Operator operators = 1;
+}
+
+message ProcessofOperator
+{
+  string id = 1;                // ID del proceso creado (GUID en string)
+  string process_name = 2;
+  string product_name = 3;
+}
+
+message SupervisorofOperator
+{
+  string id = 1;                  // ID del supervisor (GUID en string)
+  string supervisor_name = 2;
+  string ci = 3;
+  string school_level = 4; 
+}
+
+
+enum SchoolLevelOperator
+{
+	Medium = 0;
+	High = 1;
+	MediumTecnic = 2;
+	University = 3;
+}
+
+message OperatorGetRequest
+{
+	string id = 1;
+}
+
+
+message OperatorDeleteRequest
+{
+	string id = 1;
+}
+
+
+
+
+
+
